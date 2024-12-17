@@ -13,6 +13,99 @@ const careerSalaryData = {
     "Game Dev": [4000, 4200, 4300, 4500, 4600, 4700, 4800, 5000]
 };
 
+const careerOccupationData = {
+    "Desenvolvedor Front-end": [
+        "Criação de sites responsivos",
+        "Desenvolvimento de interfaces interativas",
+        "Manutenção de páginas web",
+        "Criação de sites responsivos",
+        "Desenvolvimento de interfaces interativas",
+        "Otimização de performance"
+    ],
+    "Desenvolvedor Back-end": [
+        "Implementação de APIs",
+        "Gerenciamento de bancos de dados",
+        "Desenvolvimento de lógica de sistemas",
+        "Gerenciamento de bancos de dados",
+        "Segurança de aplicações"
+    ],
+    "Engenheiro de Dados": [
+        "Construção de pipelines de dados",
+        "Gerenciamento de big data",
+        "Otimização de queries",
+        "Gerenciamento de big data",
+        "Construção de pipelines de dados"
+    ],
+    "Desenvolvedor Mobile": [
+        "Desenvolvimento de apps Android",
+        "Desenvolvimento de apps iOS",
+        "Correção de bugs em apps",
+        "Desenvolvimento de apps Android",
+        "Otimização de apps"
+    ],
+    "Data Scientist": [
+        "Análise de dados",
+        "Criação de modelos preditivos",
+        "Limpeza de dados",
+        "Análise de dados",
+        "Visualização de dados"
+    ],
+    "DevOps Engineer": [
+        "Automatização de deploy",
+        "Gerenciamento de servidores",
+        "Monitoramento de performance",
+        "Automatização de deploy",
+        "CI/CD pipelines"
+    ],
+    "Game Dev": [
+        "Desenvolvimento de mecânicas de jogo",
+        "Implementação de gráficos 3D",
+        "Criação de scripts para IA",
+        "Desenvolvimento de mecânicas de jogo",
+        "Otimização de performance"
+    ]
+};
+
+const careerStudyData = {
+    "Desenvolvedor Front-end": {
+        "HTML": ["Tags", "Formulários", "Semântica"],
+        "CSS": ["Flexbox", "Grid", "Animações"],
+        "JavaScript": ["DOM", "ES6+", "Eventos"]
+    },
+    "Desenvolvedor Back-end": {
+        "Node.js": ["Express", "NPM", "APIs REST"],
+        "Banco de Dados": ["SQL", "NoSQL", "ORM"],
+        "Segurança": ["JWT", "Criptografia", "Autenticação"]
+    },
+    "Engenheiro de Dados": {
+        "Pipelines": ["ETL", "Airflow"],
+        "Big Data": ["Spark", "Hadoop"],
+        "SQL": ["Query Performance", "Joins"]
+    },
+    "Desenvolvedor Mobile": {
+        "Flutter": ["Widgets", "State Management"],
+        "Android": ["Kotlin", "Activity Lifecycle"],
+        "iOS": ["Swift", "Storyboard"]
+    },
+    "Data Scientist": {
+        "Python": ["Pandas", "NumPy"],
+        "Modelos": ["Regressão", "Classificação"],
+        "Visualização": ["Matplotlib", "Seaborn"]
+    },
+    "DevOps Engineer": {
+        "CI/CD": ["Jenkins", "GitHub Actions"],
+        "Containers": ["Docker", "Kubernetes"],
+        "Cloud": ["AWS", "Azure"]
+    },
+    "Game Dev": {
+        "Game Engines": ["Unity", "Unreal"],
+        "Programação": ["C#", "C++"],
+        "Gráficos": ["Shaders", "PhysX"]
+    }
+};
+
+
+
 // Seleção de carreiras
 careerButtons.forEach(button => {
     button.addEventListener('click', function() {
@@ -34,17 +127,18 @@ statButtons.forEach(button => {
     button.addEventListener('click', function() {
         if (this.innerText === 'Média') {
             if (selectedCareers.length === 1) {
-                // Exibe gráfico de uma única carreira
                 renderSingleCareerChart();
                 showAverageSalary();
             } else if (selectedCareers.length > 1) {
-                // Exibe gráficos separados para cada carreira
                 renderMultipleCareerCharts();
             }
         } else if (this.innerText === 'Comparar') {
             if (selectedCareers.length > 1) {
-                // Exibe gráfico de múltiplas carreiras
                 renderMultipleCareersComparisonChart();
+            }
+        } else if (this.innerText === 'Moda') {
+            if (selectedCareers.length === 1) {
+                showCareerMode();
             }
         }
     });
@@ -124,6 +218,26 @@ function showAverageSalary() {
     averageSalaryElement.innerHTML = `<p>Média Salarial: R$ ${averageSalary}</p>`;
 }
 
+// Função para mostrar a moda
+function showCareerMode() {
+    const career = selectedCareers[0];
+    const occupations = careerOccupationData[career];
+
+    const frequency = {};
+    occupations.forEach(occupation => {
+        frequency[occupation] = (frequency[occupation] || 0) + 1;
+    });
+
+    // Encontrar a ocupação mais frequente (moda)
+    const mode = Object.keys(frequency).reduce((a, b) => frequency[a] > frequency[b] ? a : b);
+    
+    const averageSalaryElement = document.getElementById('averageSalary');
+    averageSalaryElement.innerHTML = `
+        <p>Moda Ocupacional (${career}): ${mode}</p>
+    `;
+}
+
+
 // Função para renderizar gráfico de comparação de múltiplas carreiras
 function renderMultipleCareersComparisonChart() {
     const ctx = document.getElementById('salaryChart').getContext('2d');
@@ -190,7 +304,7 @@ function renderMultipleCareersComparisonChart() {
     });
 }
 
-// Função auxiliar para gerar cores aleatórias para as linhas
+// Função auxiliar para gerar cores aleatórias
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -199,3 +313,4 @@ function getRandomColor() {
     }
     return color;
 }
+
