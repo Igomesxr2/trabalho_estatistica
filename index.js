@@ -321,7 +321,10 @@ function renderCorrelationChart() {
     const salaries2 = careerSalaryData[career2];
 
     // Calcular correlação linear
-    const correlation = calcularCorrelacaoLinear(salaries1, salaries2);
+    const correlation = calcularCorrelacaoLinear(salaries1, salaries2).toFixed(2);
+
+    const correlacaoSalary = document.getElementById('correlacaoSalary');
+    correlacaoSalary.innerHTML = `<p>Correlação: ${correlation}</p>`
 
     // Gerar o gráfico de dispersão
     salaryChart = new Chart(ctx, {

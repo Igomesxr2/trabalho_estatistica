@@ -153,6 +153,14 @@ footer p {
     margin-top: 20px;
 }   
 
+#correlacaoSalary{
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100px; /* Ajuste a altura conforme necessário */
+    margin-top: 20px; 
+}
+
 img{
     width: 100px;
     height: 100%;
