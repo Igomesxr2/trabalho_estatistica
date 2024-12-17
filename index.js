@@ -66,45 +66,6 @@ const careerOccupationData = {
     ]
 };
 
-const careerStudyData = {
-    "Desenvolvedor Front-end": {
-        "HTML": ["Tags", "Formulários", "Semântica"],
-        "CSS": ["Flexbox", "Grid", "Animações"],
-        "JavaScript": ["DOM", "ES6+", "Eventos"]
-    },
-    "Desenvolvedor Back-end": {
-        "Node.js": ["Express", "NPM", "APIs REST"],
-        "Banco de Dados": ["SQL", "NoSQL", "ORM"],
-        "Segurança": ["JWT", "Criptografia", "Autenticação"]
-    },
-    "Engenheiro de Dados": {
-        "Pipelines": ["ETL", "Airflow"],
-        "Big Data": ["Spark", "Hadoop"],
-        "SQL": ["Query Performance", "Joins"]
-    },
-    "Desenvolvedor Mobile": {
-        "Flutter": ["Widgets", "State Management"],
-        "Android": ["Kotlin", "Activity Lifecycle"],
-        "iOS": ["Swift", "Storyboard"]
-    },
-    "Data Scientist": {
-        "Python": ["Pandas", "NumPy"],
-        "Modelos": ["Regressão", "Classificação"],
-        "Visualização": ["Matplotlib", "Seaborn"]
-    },
-    "DevOps Engineer": {
-        "CI/CD": ["Jenkins", "GitHub Actions"],
-        "Containers": ["Docker", "Kubernetes"],
-        "Cloud": ["AWS", "Azure"]
-    },
-    "Game Dev": {
-        "Game Engines": ["Unity", "Unreal"],
-        "Programação": ["C#", "C++"],
-        "Gráficos": ["Shaders", "PhysX"]
-    }
-};
-
-
 
 // Seleção de carreiras
 careerButtons.forEach(button => {
@@ -313,4 +274,3 @@ function getRandomColor() {
     }
     return color;
 }
-
