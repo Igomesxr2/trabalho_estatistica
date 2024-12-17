@@ -274,3 +274,140 @@ function getRandomColor() {
     }
     return color;
 }
+
+// Função para calcular o coeficiente de correlação de Pearson
+function calcularCorrelacaoLinear(data1, data2) {
+    const n = data1.length;
+    const somaX = data1.reduce((a, b) => a + b, 0);
+    const somaY = data2.reduce((a, b) => a + b, 0);
+    const somaXY = data1.reduce((acc, val, idx) => acc + val * data2[idx], 0);
+    const somaX2 = data1.reduce((acc, val) => acc + val * val, 0);
+    const somaY2 = data2.reduce((acc, val) => acc + val * val, 0);
+
+    const numerador = n * somaXY - somaX * somaY;
+    const denominador = Math.sqrt((n * somaX2 - somaX * somaX) * (n * somaY2 - somaY * somaY));
+
+    const cors = numerador /denominador
+    return cors;
+}
+
+statButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        if (this.innerText === 'Correlação') {
+            if (selectedCareers.length === 2) {
+                renderCorrelationChart();
+            } else {
+                alert('Selecione exatamente duas carreiras para calcular a correlação.');
+            }
+        }
+    });
+});
+
+// Função para renderizar o gráfico de correlação linear
+function renderCorrelationChart() {
+    const ctx = document.getElementById('salaryChart').getContext('2d');
+    const chartContainer = document.getElementById('salaryChart');
+    chartContainer.classList.add('show');
+    
+
+    if (salaryChart) {
+        salaryChart.destroy();
+    }
+
+    const career1 = selectedCareers[0];
+    const career2 = selectedCareers[1];
+
+    const salaries1 = careerSalaryData[career1];
+    const salaries2 = careerSalaryData[career2];
+
+    // Calcular correlação linear
+    const correlation = calcularCorrelacaoLinear(salaries1, salaries2);
+
+    // Gerar o gráfico de dispersão
+    salaryChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: `Correlação entre ${career1} e ${career2}`,
+                data: salaries1.map((salary, index) => ({
+                    x: salary,
+                    y: salaries2[index]
+                })),
+                backgroundColor: 'rgba(0, 123, 255, 0.6)',
+                pointRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return `R$${tooltipItem.raw.x} vs R$${tooltipItem.raw.y}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: `${career1} Salário (R$)`
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: `${career2} Salário (R$)`
+                    }
+                }
+            }
+        }
+    });
+
+    // Adicionar a linha de regressão linear
+    addRegressionLine(salaries1, salaries2);
+}
+
+// Função para adicionar a linha de regressão linear no gráfico
+function addRegressionLine(data1, data2) {
+    const xValues = data1;
+    const yValues = data2;
+
+    const n = xValues.length;
+    const meanX = xValues.reduce((a, b) => a + b, 0) / n;
+    const meanY = yValues.reduce((a, b) => a + b, 0) / n;
+
+    // Coeficiente angular (slope) e coeficiente linear (intercept)
+    const numerator = xValues.reduce((acc, val, idx) => acc + (val - meanX) * (yValues[idx] - meanY), 0);
+    const denominator = xValues.reduce((acc, val) => acc + Math.pow(val - meanX, 2), 0);
+    const slope = numerator / denominator;
+    const intercept = meanY - slope * meanX;
+
+    // Gerar os pontos da linha de regressão
+    const regressionLine = xValues.map(x => ({
+        x: x,
+        y: slope * x + intercept
+    }));
+
+    // Adicionar ao gráfico
+    salaryChart.data.datasets.push({
+        label: 'Linha de Regressão Linear',
+        data: regressionLine,
+        type: 'line',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        fill: false,
+        tension: 0,
+        borderWidth: 2
+    });
+
+    salaryChart.update();
+}
+
+
+
+
