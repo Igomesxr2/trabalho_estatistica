@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Map</title>
+    <link rel="stylesheet" href="styles/index.css">
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo" />
+        <h1>Career Map</h1>
+    </header>
+    
+
+    <main>
+        <section class="careers">
+            <h2>Carreiras</h2>
+            <div class="career-options">
+                <button class="career">Desenvolvedor Front-end</button>
+                <button class="career">Desenvolvedor Back-end</button>
+                <button class="career">Engenheiro de Dados</button>
+                <button class="career">Desenvolvedor Mobile</button>
+                <button class="career">Data Scientist</button>
+                <button class="career">DevOps Engineer</button>
+                <button class="career">Game Dev</button>
+            </div>
+        </section>
+
+        <section class="statistics">
+            <h2>Estatísticas</h2>
+            <div class="buttons">
+                <button class="stat-btn">Média</button>
+                <button class="stat-btn">Moda</button>
+            </div>
+            <div id="averageSalary"></div>
+            <!-- Chart container -->
+            <canvas id="salaryChart"></canvas>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Career Map - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
